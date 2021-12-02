@@ -13,4 +13,16 @@ public class User {
         this.balance = balance;
         this.inventory = inventory;
     }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }
