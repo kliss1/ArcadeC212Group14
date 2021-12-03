@@ -20,7 +20,7 @@ public class ConsoleUtils {
      * If the condition returns false, or else if this is not an integer, it will print the failure message and ask the user to input again.
      */
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage) {
-        if(condition == false)
+        if(condition.equals(false))
         return -1;
     }
 

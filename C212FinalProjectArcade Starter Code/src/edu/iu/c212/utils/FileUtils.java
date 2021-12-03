@@ -1,11 +1,10 @@
 package edu.iu.c212.utils;
 
+import edu.iu.c212.models.Item;
 import edu.iu.c212.models.User;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtils {
@@ -41,5 +40,26 @@ public class FileUtils {
      * Read user data from the file you provided above. Return a list of Users
      */
     public static List<User> getUserDataFromFile() throws IOException {
+        String line = "";
+        String splitter = "|";
+        String splitter2 = ",";
+
+        BufferedReader br = new BufferedReader(new FileReader("products.csv"));
+        while ((line = br.readLine()) != null){
+            String[] info = line.split(splitter);
+            String name = info[0];
+            double bal = Double.parseDouble(info[1]);
+            List<Item> t = new ArrayList<>();
+            String[] itemInfo = info[2].split(splitter2);
+            List<Item> fin = new ArrayList<>();
+            for(int i = 0; i < itemInfo.length; i++){
+                String[] itemInfoDiv = info[i].split("\\(");
+                String name2 = itemInfoDiv[1];
+                double val = Double.parseDouble(itemInfoDiv[3]);
+                fin.add(new Item(name2, val));
+            }
+
+
+        }
     }
 }
