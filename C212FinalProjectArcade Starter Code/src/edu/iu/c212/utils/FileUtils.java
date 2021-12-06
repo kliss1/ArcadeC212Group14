@@ -44,14 +44,14 @@ public class FileUtils {
      */
     public static List<User> getUserDataFromFile() throws IOException {
         String line = "";
-        String splitter = "|";
+        char splitter = (char)124;
         String splitter2 = ",";
         List<User> users = new ArrayList<>();
 
-        BufferedReader br = new BufferedReader(new FileReader("products.csv"));
+        BufferedReader br = new BufferedReader(new FileReader("users.txt"));
         while ((line = br.readLine()) != null){
 
-            String[] info = line.split(splitter);
+            String[] info = line.split(String.valueOf(splitter));
 
             String name = info[0];
             double bal = Double.parseDouble(info[1]);
