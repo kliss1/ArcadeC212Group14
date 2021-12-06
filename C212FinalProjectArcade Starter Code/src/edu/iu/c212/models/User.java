@@ -4,6 +4,8 @@ import java.util.List;
 
 public class User {
 
+    //Kyle Liss
+
     private String username;
     private double balance;
     private List<Item> inventory;
@@ -24,5 +26,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

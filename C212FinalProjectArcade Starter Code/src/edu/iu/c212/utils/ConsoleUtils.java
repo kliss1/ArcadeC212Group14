@@ -5,6 +5,9 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 public class ConsoleUtils {
+
+    //Kyle Liss
+
     private static final Scanner scanner = new Scanner(System.in);
 
     /**
@@ -18,10 +21,21 @@ public class ConsoleUtils {
     /**
      * This method will read a line from the user using readLineFromConsole. It will try to parse this to an integer, and invoke the condition.
      * If the condition returns false, or else if this is not an integer, it will print the failure message and ask the user to input again.
-     */
+     **/
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage) {
-        if(condition.equals(false))
-        return -1;
+
+        boolean con = condition.apply(Integer.parseInt(readLineFromConsole()));
+        int fin;
+        while(!con){
+            System.out.println(failureMessage);
+            String input = readLineFromConsole();
+            con = condition.apply(Integer.parseInt(input));
+            if(con){
+                return Integer.parseInt(input);
+            }
+
+        }
+        return 0;
     }
 
     /**
