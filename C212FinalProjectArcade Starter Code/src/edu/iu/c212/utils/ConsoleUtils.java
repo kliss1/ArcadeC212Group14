@@ -7,6 +7,7 @@ import java.util.function.Function;
 public class ConsoleUtils {
 
     //Kyle Liss
+    // Small Edits made by David Resinos
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -24,7 +25,7 @@ public class ConsoleUtils {
      **/
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage) {
 
-        //Changed to save interger to a variable. Error gone (David Resinos)
+        //Changed to save interger to a variable. Error gone
         int save = Integer.parseInt(readLineFromConsole());
         boolean con = condition.apply(save);
 
@@ -57,7 +58,7 @@ public class ConsoleUtils {
 
         if (shouldUserSelectAnOption) {
             System.out.println("Please select an option by its number:");
-            int enteredIndex = readIntegerLineFromConsoleOrElseComplainAndRetry(number -> number - 1 >= 0 && number - 1 <= options.size(), "You need to enter a valid option") - 1;
+            int enteredIndex = readIntegerLineFromConsoleOrElseComplainAndRetry(number -> number - 1 >= 0 && number - 1 <= options.size(), "You need to enter a valid option") - 1;  // Edit set <= Lambda last
             return options.get(enteredIndex);
         } else return null;
     }
