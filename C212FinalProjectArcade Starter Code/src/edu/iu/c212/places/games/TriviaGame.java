@@ -1,4 +1,5 @@
 package edu.iu.c212.places.games;
+import edu.iu.c212.Arcade;
 import edu.iu.c212.models.User;
 import edu.iu.c212.utils.*;
 import edu.iu.c212.utils.http.HttpUtils;
@@ -31,7 +32,7 @@ public class TriviaGame extends Game {
             Collections.shuffle(answers);
             String useranswer = ConsoleUtils.printMenuToConsole(question.getQuestion(),answers,true);
             // add balance to the users wallet if correct
-            if(useranswer == correctAnswer){
+            if(Objects.equals(useranswer, correctAnswer)){
                 System.out.println("You got it right! You got $2.");
                 trivia.setBalance(trivia.getBalance()+2);
             }
@@ -42,7 +43,7 @@ public class TriviaGame extends Game {
         }
     }
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String[] args) throws IOException {
         // create new instance of class
         TriviaGame game = new TriviaGame();
         User users = new User("name", 2, new ArrayList<>());
@@ -51,5 +52,30 @@ public class TriviaGame extends Game {
         // print balance 
         System.out.println(users.getBalance());
 
+    }
+
+    @Override
+    public Arcade getArcade() {
+        return null;
+    }
+
+    @Override
+    public double getEntryFee() {
+        return 0;
+    }
+
+    @Override
+    public String getPlaceName() {
+        return "Trivia";
+    }
+
+    @Override
+    public void onEnter(User user) {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + getPlaceName() + " | Entry Fee: " + getEntryFee() + " | Game: True";
     }
 }

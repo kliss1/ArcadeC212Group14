@@ -40,7 +40,7 @@ public class Lobby extends Place{
 
     @Override
     public String toString() {
-        return "Name: " + getPlaceName() + " Entry Fee: " + getEntryFee() + " Game?: False";
+        return "Name: " + getPlaceName() + " | Entry Fee: " + getEntryFee() + " | Game: False";
     }
 }
 
