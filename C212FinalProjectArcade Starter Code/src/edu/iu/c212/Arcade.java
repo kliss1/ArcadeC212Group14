@@ -12,10 +12,16 @@ import edu.iu.c212.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.*;
+/*
+    C212 Final Project
+    Group #14
+    David Resinos
+    Kyle Liss 
+    Mitchell Kelly 
+    Zach Watson
+ */
 
 public class Arcade implements IArcade{
-
-    //Kyle Liss
 
     private User currentUser;
     private List<User> allUsers;
