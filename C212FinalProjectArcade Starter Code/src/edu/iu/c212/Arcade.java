@@ -6,12 +6,12 @@ import edu.iu.c212.places.Inventory;
 import edu.iu.c212.places.Lobby;
 import edu.iu.c212.places.Place;
 import edu.iu.c212.places.Store;
+import edu.iu.c212.places.games.TriviaGame;
+import edu.iu.c212.places.games.blackjack.BlackjackGame;
 import edu.iu.c212.utils.FileUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Arcade implements IArcade{
 
@@ -19,18 +19,19 @@ public class Arcade implements IArcade{
 
     private User currentUser;
     private List<User> allUsers;
-    private List<Place> allPlaces;
+    private List<Place> allPlaces = new ArrayList<>();
 
     public Arcade(){
+        allUsers = getUserSaveDataFromFile();
 
         currentUser = getUserOnArcadeEntry();
-        allUsers = new ArrayList<>();
-        allUsers.add(currentUser);
-        allPlaces = new ArrayList<>();
+
         allPlaces.add(new Lobby(this));
         allPlaces.add(new Store(this));
         allPlaces.add(new Inventory(this));
 
+        allPlaces.add(new TriviaGame());
+        allPlaces.add(new BlackjackGame(this));
 
         transitionArcadeState("Lobby");
     }
@@ -48,24 +49,20 @@ public class Arcade implements IArcade{
     @Override
     public void saveUsersToFile(){
         try {
-            FileUtils.writeUserDataToFile(allUsers);
-        }
-        catch(IOException ignored){
-        }
+            FileUtils.writeUserDataToFile(getAllUsers());
+        } catch(IOException ignored){}
     }
 
     @Override
     public void transitionArcadeState(String newPlaceNameToGoTo) {
         boolean con = false;
-        for(int i = 0; i < allPlaces.size(); i++){
-
-            if(allPlaces.get(i).getPlaceName().equals(newPlaceNameToGoTo)){
-                if(currentUser.getBalance() >= allPlaces.get(i).getEntryFee()) {
-                    currentUser.setBalance(currentUser.getBalance()-allPlaces.get(i).getEntryFee());
+        for (Place allPlace : allPlaces) {
+            if (allPlace.getPlaceName().equals(newPlaceNameToGoTo)) {
+                if (currentUser.getBalance() >= allPlace.getEntryFee()) {
+                    currentUser.setBalance(currentUser.getBalance() - allPlace.getEntryFee());
                     this.saveUsersToFile();
-                    allPlaces.get(i).onEnter(currentUser);
-                }
-                else{
+                    allPlace.onEnter(currentUser);
+                } else {
                     con = true;
                 }
             }
@@ -83,25 +80,33 @@ public class Arcade implements IArcade{
         System.out.print("Enter a username: ");
         String name = in.next();
 
-        List<User> temp = getUserSaveDataFromFile();
-        for(int i = 0; i < temp.size(); i++){
-            if(temp.get(i).getUsername().equals(name)){
+        for (User value : allUsers) {
+            if (value.getUsername().equals(name)) {
                 System.out.println("Welcome back to the Arcade!!!");
-                return temp.get(i);
+                return value;
             }
         }
 
         System.out.println("Welcome to the Arcade!!!");
 
-        System.out.print("Enter your balance as a decimal: ");
-        double bal = in.nextDouble();
+        System.out.print("Enter your balance: ");
+
+        double bal = -1.0;
+
+        while (bal < 0) {
+            try {
+                String balanceInput = in.next();
+                bal = Double.parseDouble(balanceInput);
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid balance. Enter a number: ");
+            }
+        }
 
         List<Item> items = new ArrayList<>();
-        User fin = new User(name, bal, items);
-        allUsers.add(fin);
-        this.saveUsersToFile();
+        User user = new User(name, bal, items);
+        allUsers.add(user);
 
-        return fin;
+        return user;
     }
 
     @Override
@@ -114,6 +119,17 @@ public class Arcade implements IArcade{
     }
 
     public List<User> getAllUsers() {
+        int currentUserIndex = -1;
+
+        for (int i = 0; i < allUsers.size(); i++) {
+            if (Objects.equals(allUsers.get(i).getUsername(), currentUser.getUsername())) {
+                currentUserIndex = i;
+                break;
+            }
+        }
+
+        if (currentUserIndex >= 0) allUsers.set(currentUserIndex, currentUser);
+
         return allUsers;
     }
 }
