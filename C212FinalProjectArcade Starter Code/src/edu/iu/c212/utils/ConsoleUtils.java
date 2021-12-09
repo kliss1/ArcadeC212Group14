@@ -7,6 +7,7 @@ import java.util.function.Function;
 public class ConsoleUtils {
 
     //Kyle Liss
+    // Small Edits made by David Resinos
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -23,7 +24,7 @@ public class ConsoleUtils {
      **/
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage) {
 
-        //Changed to save interger to a variable. Error gone (David Resinos)
+        //Changed to save interger to a variable. Error gone
         int save = Integer.parseInt(readLineFromConsole());
         boolean con = condition.apply(save);
 

@@ -3,6 +3,7 @@ package edu.iu.c212.utils.http;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
+// Used by David Resinos Trivia Game
 public class TriviaQuestion {
 
 	@SerializedName("difficulty")
