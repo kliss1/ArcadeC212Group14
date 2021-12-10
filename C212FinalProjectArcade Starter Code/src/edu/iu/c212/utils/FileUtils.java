@@ -6,6 +6,7 @@ import edu.iu.c212.models.User;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class FileUtils {
 
@@ -24,11 +25,12 @@ public class FileUtils {
      */
     public static void writeUserDataToFile(List<User> users) throws IOException {
         try {
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), false);
             BufferedWriter bw = new BufferedWriter(fw);
-            for(int i = 0; i < users.size(); i++) {
+            for (int i = 0; i < users.size(); i++) {
                 String userInfo = users.get(i).getUsername() + " | " + users.get(i).getBalance() + " | " + users.get(i).getInventory();
-                bw.write("\r\n" + userInfo);
+                String toWrite = i == 0 ? userInfo : "\r\n" + userInfo;
+                bw.write(toWrite);
             }
             bw.close();
 
@@ -43,49 +45,40 @@ public class FileUtils {
      * Read user data from the file you provided above. Return a list of Users
      */
     public static List<User> getUserDataFromFile() throws IOException {
-        String line = "";
-        char splitter = (char)124;
-        String splitter2 = ",";
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        String line;
         List<User> users = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new FileReader("users.txt"));
         while ((line = br.readLine()) != null){
+            String[] info = line.split("\\|");
 
-            String[] info = line.split(String.valueOf(splitter));
+            String name = info[0].trim();
+            double bal = Double.parseDouble(info[1].trim());
 
-            String name = info[0];
-            double bal = Double.parseDouble(info[1]);
-
-            String[] itemInfo = info[2].split(splitter2);
+            String inventoryArray = info[2].trim().replaceAll("\\[", "").replaceAll("]", "");
+            String[] itemInfo = inventoryArray.split(",");
 
             List<Item> fin = new ArrayList<>();
 
-            for(int i = 0; i < itemInfo.length; i++){
-                String[] itemInfoDiv = info[i].split("\\(");
-                String name2 = itemInfoDiv[1];
-                if(name2.equals("Candy")){
-                    fin.add(Item.CANDY);
-                }
-                else if(name2.equals("Nintendo Switch")){
-                    fin.add(Item.NINTENDOSWITCH);
-                }
-                else if(name2.equals("Yoyo")){
-                    fin.add(Item.YOYO);
-                }
-                else if(name2.equals("Nerf Gun")){
-                    fin.add(Item.NERFGUN);
-                }
-                else if(name2.equals("Four Wheeler")){
-                    fin.add(Item.FOURWHEELER);
-                }
+            for (String s : itemInfo) {
+                String[] itemInfoDiv = s.split("\\(");
+                if (itemInfoDiv.length < 2) continue;
 
+                String itemName = itemInfoDiv[1].split("\\)")[0].trim();
+                switch (itemName) {
+                    case "Candy" -> fin.add(Item.CANDY);
+                    case "Nintendo Switch" -> fin.add(Item.NINTENDOSWITCH);
+                    case "Yoyo" -> fin.add(Item.YOYO);
+                    case "Nerf Gun" -> fin.add(Item.NERFGUN);
+                    case "Four Wheeler" -> fin.add(Item.FOURWHEELER);
+                }
             }
 
             users.add(new User(name, bal, fin));
-
-
-
-
         }
         return users;
     }

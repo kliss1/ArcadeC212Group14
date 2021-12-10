@@ -60,14 +60,13 @@ public class Store extends Place{
 
                 String choice = ConsoleUtils.printMenuToConsole("Store Menu", menuOptions, true);
 
+                assert choice != null;
                 if (choice.equals("Buy")) {
-                    StoreAction buy = StoreAction.BUY;
-                    System.out.println(buy);
+                    System.out.println(StoreAction.BUY);
+
                     if(arcade.getCurrentUser().getInventory().size() == 3){
                         System.out.println("Your inventory is full!");
-                    }
-
-                    else{
+                    } else {
                         Item t = ConsoleUtils.printMenuToConsole("Items for Sale Menu: ", buyOptions, true);
                         assert t != null;
                         if(t.getValue() <= arcade.getCurrentUser().getBalance()) {
@@ -76,7 +75,7 @@ public class Store extends Place{
                             if (input.equals("y")) {
                                 double val = t.getValue();
                                 arcade.getCurrentUser().setBalance(arcade.getCurrentUser().getBalance() - val);
-                                arcade.getCurrentUser().getInventory().remove(t);
+                                arcade.getCurrentUser().getInventory().add(t);
                                 FileUtils.writeUserDataToFile(arcade.getAllUsers());
                             }
                         }
@@ -114,16 +113,19 @@ public class Store extends Place{
                     fin = true;
                 }
             }
+
+            arcade.transitionArcadeState("Lobby");
         }
 
         catch(IOException ignore) {
+            arcade.transitionArcadeState("Lobby");
         }
 
     }
 
     @Override
     public String toString() {
-        return "Name: " + getPlaceName() + " Entry Fee: " + getEntryFee() + " Game?: False";
+        return "Name: " + getPlaceName() + " | Entry Fee: " + getEntryFee() + " | Game: False";
     }
 
 
@@ -154,6 +156,4 @@ enum StoreAction{
         }
 
     }
-    ;
-
 }
