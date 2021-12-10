@@ -1,6 +1,6 @@
 package edu.iu.c212.places.games.blackjack;
 
-public class BlackjackDealer extends BlackjackParticipant {
+public class   BlackjackDealer extends BlackjackParticipant {
 
     private String shownCard;
     private int dealerBest = -1;

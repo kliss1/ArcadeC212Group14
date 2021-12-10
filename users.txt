@@ -1,2 +1,3 @@
 ZachW | 30.0 | []
 ZachW2 | 83.0 | [Name: (Candy) Value: (2.0), Name: (Candy) Value: (2.0), Name: (Yoyo) Value: (5.0)]
+KyleLiss | 45.0 | [Name: (Yoyo) Value: (5.0)]
