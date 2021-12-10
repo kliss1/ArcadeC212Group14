@@ -18,7 +18,7 @@ public class GuessTheNumberGame extends Game {
         player.setBalance(player.getBalance()-getEntryFee());
         //generate a random number between 1 and 100 inclusive
         Random r = new Random();
-        int randomNum = r.nextInt(1, 101);
+        int randomNum = (int) ((Math.random() * 100)+1);
         System.out.println("Welcome to the random number guessing game!");
         System.out.println("You will be given 5 guesses, and will win $10 if you guess correctly");
         System.out.println("The number is between 1 and 100 (inclusive)");

@@ -6,8 +6,10 @@ import edu.iu.c212.places.Inventory;
 import edu.iu.c212.places.Lobby;
 import edu.iu.c212.places.Place;
 import edu.iu.c212.places.Store;
+import edu.iu.c212.places.games.GuessTheNumberGame;
 import edu.iu.c212.places.games.TriviaGame;
 import edu.iu.c212.places.games.blackjack.BlackjackGame;
+import edu.iu.c212.places.games.hangman.HangmanGame;
 import edu.iu.c212.utils.FileUtils;
 
 import java.io.IOException;
@@ -35,6 +37,10 @@ public class Arcade implements IArcade{
         allPlaces.add(new Lobby(this));
         allPlaces.add(new Store(this));
         allPlaces.add(new Inventory(this));
+        allPlaces.add(new HangmanGame());
+        allPlaces.add(new TriviaGame());
+        allPlaces.add(new BlackjackGame(this));
+        allPlaces.add(new GuessTheNumberGame());
 
         allPlaces.add(new TriviaGame());
         allPlaces.add(new BlackjackGame(this));
