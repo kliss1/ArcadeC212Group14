@@ -42,9 +42,6 @@ public class Arcade implements IArcade{
         allPlaces.add(new BlackjackGame(this));
         allPlaces.add(new GuessTheNumberGame());
 
-        allPlaces.add(new TriviaGame());
-        allPlaces.add(new BlackjackGame(this));
-
         transitionArcadeState("Lobby");
     }
     @Override
